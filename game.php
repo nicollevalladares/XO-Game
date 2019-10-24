@@ -5,20 +5,20 @@
     <title>XO Game</title>
 </head>
 <body>
-    <form method="POST" action="game.php">
+    <form style="width: 500px; margin-left:auto; margin-right:auto; margin-top: 30px" method="POST">
         <?php
             $error = false;
             $x_win = false;
             $o_win = false;
-            $count = 0;
-            $v1 = $_GET['username'];
+            $count = 0; 
+            $username = $_GET['username'];
 
             //print the matrix
             for($id = 1; $id < 10; $id++){
                 if($id == 4 || $id == 7)
                     print "<br>";
 
-                    print "<input name = $id type = text size = 8";
+                    print "<input style = 'height: 70px !important; text-align: center' name = $id type = text size = 15 ";
                 
                 if(isset($_POST['submit']) && !empty($_POST[$id])){
                     
@@ -72,24 +72,29 @@
                 }
             }
         ?>
-
+        <br>
+        <br>
         <p>
             <input name="submit" type="submit">
         </p>
-        
 
-        <h3>LINK DE INVITACION</h3>
-        <a href='http://localhost/XO-Game/index.php?username='.$v1 target="_blank">Partida</a>
+        <?php
+            echo "<p>Jugador uno: $username </p>
+            <p>Partidas ganadas: 0
+            <br>
+            <br>";
+            echo "<span>LINK DE INVITACION</span><br>
+            <a href='http://localhost/XO-Game/index.php?username=$username'>Partida</a>"
+        ?>
     </form>
     
     <?php
         if($o_win){
             print "Ha ganado el jugador O";
-                    
-            $sql = "INSERT INTO users_games_won (users_idUser, games_idGame, quantity) VALUES (1, 1, 1)";
         }
         elseif($x_win){
             print "Ha ganado el jugador X";
+            
         }
         elseif ($count == 8 || $count == 9 && !$o_win && !$x_win) {
             print "Ningun jugador ha ganado";

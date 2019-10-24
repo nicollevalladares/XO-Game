@@ -4,42 +4,44 @@
 
    $username = $name = "";
    $username_err = $name_err = "";
+   $user_one = $_GET['username'];
    
    // Processing form data when form is submitted
    if($_SERVER["REQUEST_METHOD"] == "POST"){
    
-      // Validate username
-      if(empty(trim($_POST["username"]))){
-         $username_err = "Por favor ingrese un nombre de usuario.";
-      } else{
-         // Prepare a select statement
-         $sql = "SELECT idUser FROM users WHERE userName = ?";
-         
-         if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-            
-            // Set parameters
-            $param_username = trim($_POST["username"]);
-            
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                  /* store result */
-                  mysqli_stmt_store_result($stmt);
-                  
-                  if(mysqli_stmt_num_rows($stmt) == 1){
-                     $username_err = "Este usuario ya existe.";
-                  } else{
-                     $username = trim($_POST["username"]);
-                  }
-            } else{
-                  echo "Oops! Algo salio mal, favor intente mas tarde.";
+        // Validate username
+        if(empty(trim($_POST["username"]))){
+            $username_err = "Por favor ingrese un nombre de usuario.";
+        } 
+        else{
+            // Prepare a select statement
+            $sql = "SELECT idUser FROM users WHERE userName = ?";
+
+            if($stmt = mysqli_prepare($link, $sql)){
+                // Bind variables to the prepared statement as parameters
+                mysqli_stmt_bind_param($stmt, "s", $param_username);
+                
+                // Set parameters
+                $param_username = trim($_POST["username"]);
+                
+                // Attempt to execute the prepared statement
+                if(mysqli_stmt_execute($stmt)){
+                    /* store result */
+                    mysqli_stmt_store_result($stmt);
+                    
+                    if(mysqli_stmt_num_rows($stmt) == 1){
+                        $username_err = "Este usuario ya existe.";
+                    } else{
+                        $username = trim($_POST["username"]);
+                    }
+                } else{
+                    echo "Oops! Algo salio mal, favor intente mas tarde.";
+                }
             }
-         }
-         
-         // Close statement
-         mysqli_stmt_close($stmt);
-      }
+            
+            // Close statement
+            mysqli_stmt_close($stmt);
+        }
       
       // Validate name
       if(empty(trim($_POST["name"]))){
@@ -54,8 +56,6 @@
          
          // Prepare an insert statement
          $sql = "INSERT INTO users (username, name) VALUES (?, ?)";
-
-         $sql_2 = "INSERT INTO games (name) VALUES (?)";
          
          if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -64,26 +64,15 @@
             // Set parameters
             $param_username = $username;
             $param_name = $name; 
+            $param_user = $user_one;
             
+            echo "$param_user";
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-               if($stmt = mysqli_prepare($link, $sql_2)){
-                  // Bind variables to the prepared statement as parameters
-                  mysqli_stmt_bind_param($stmt, "s", $param_game_name);
-                  
-                  // Set parameters
-                  $param_game_name = $username;
-                  // Attempt to execute the prepared statement
-                  if(mysqli_stmt_execute($stmt)){
-                        // Redirect to login page
-                        header("location: game.php?username=".$username."");
-                  } else{
-                        echo "Algo salio mal, favor intente mas tarde.";
-                  }
-               }
-
+               // Redirect to login page
+               header("location: game.php?username=".$param_user."");
             } else{
-                  echo "Algo salio mal, favor intente mas tarde.";
+                echo "Algo salio mal, favor intente mas tarde.";
             }
          }
 
@@ -179,7 +168,7 @@
   	<h2>Registrarse</h2>
   </div>
 	
-  <form method="post" action="register.php">
+  <form method="post">
   	<div class="input-group">
   	   <label>Username</label>
   	   <input type="text" name="username" value="<?php echo $username; ?>">
