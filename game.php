@@ -5,6 +5,16 @@
     <title>XO Game</title>
 </head>
 <body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            setInterval(function(){ 
+                window.location.reload();
+            }, 2000);
+        });
+        
+    </script>
     <form style="width: 500px; margin-left:auto; margin-right:auto; margin-top: 30px" method="POST">
         <?php
             $error = false;
@@ -32,7 +42,7 @@
 
                         print " value = ".$_POST[$id]." readonly>";
                         
-
+                        //first row
                         for($a = 1, $b = 2, $c = 3; $a <= 7, $b <= 8, $c <= 9; $a += 3, $b += 3, $c += 3){
                             if($_POST["$a"] == $_POST["$b"] && $_POST["$b"] == $_POST["$c"]){
                                 if($_POST["$a"] == 'X'){
@@ -43,7 +53,8 @@
                                 }
                             } 
                         }
-
+                        
+                        //first column
                         for($a = 1, $b = 4, $c = 7; $a <= 3, $b <= 6, $c <= 9; $a += 1, $b += 1, $c += 1){
                             if($_POST["$a"] == $_POST["$b"] && $_POST["$b"] == $_POST["$c"]){
                                 if($_POST["$a"] == 'X'){
@@ -54,7 +65,8 @@
                                 }
                             } 
                         }
-
+                        
+                        //diagonal
                         for($a = 1, $b = 5, $c = 9; $a <= 3, $b <= 5, $c >= 7; $a += 2, $b += 0, $c -= 2){
                             if($_POST["$a"] == $_POST["$b"] && $_POST["$b"] == $_POST["$c"]){
                                 if($_POST["$a"] == 'X'){
