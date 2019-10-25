@@ -5,16 +5,6 @@
     <title>XO Game</title>
 </head>
 <body>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            setInterval(function(){ 
-                window.location.reload();
-            }, 2000);
-        });
-        
-    </script>
     <form style="width: 500px; margin-left:auto; margin-right:auto; margin-top: 30px" method="POST">
         <?php
             $error = false;
@@ -121,3 +111,14 @@
     ?>
 </body>
 </html>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        setInterval(function(){ 
+            window.location.reload();
+        }, 2000);
+    });
+    
+</script>
